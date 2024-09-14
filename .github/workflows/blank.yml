@@ -1,0 +1,29 @@
+name: Echo Environments
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+
+jobs:
+  echo-env:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        environment: [production, staging]
+
+    environment: ${{ matrix.environment }}
+
+    steps:
+      - name: Set environment variables
+        run: |
+          if [ "${{ matrix.environment }}" == "production" ]; then
+            echo "ENV=production" >> $GITHUB_ENV
+          elif [ "${{ matrix.environment }}" == "staging" ]; then
+            echo "ENV=staging" >> $GITHUB_ENV
+          fi
+
+      - name: Echo environment
+        run: echo "Environment is $ENV"
