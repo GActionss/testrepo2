@@ -1,4 +1,4 @@
-name: Echo Environments
+name: Display Environment Variable
 
 on:
   push:
@@ -7,25 +7,45 @@ on:
       - staging
 
 jobs:
-  echo-env:
+  display-vars:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        environment: [production, staging]
-
-    environment: ${{ matrix.environment }}
+    environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'staging' }} # Choose the environment
 
     steps:
-      - name: Set environment variables
-        run: |
-          if [ "${{ matrix.environment }}" == "production" ]; then
-            # echo "ENV=production" >> $GITHUB_ENV
-            echo ${{VARS.ENV}}
-          elif [ "${{ matrix.environment }}" == "staging" ]; then
-            # echo "ENV=staging" >> $GITHUB_ENV
-            echo ${{VARS.ENV}}
-          fi
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Echo environment
-        run: echo "Environment is $ENV"
+      - name: Display environment variable
+        run: echo "MY_ENV_VAR is ${{ VAR.ENV }}"
+
+# name: Echo Environments
+
+# on:
+#   push:
+#     branches:
+#       - main
+#       - staging
+
+# jobs:
+#   echo-env:
+#     runs-on: ubuntu-latest
+
+#     strategy:
+#       matrix:
+#         environment: [production, staging]
+
+#     environment: ${{ matrix.environment }}
+
+#     steps:
+#       - name: Set environment variables
+#         run: |
+#           if [ "${{ matrix.environment }}" == "production" ]; then
+#             # echo "ENV=production" >> $GITHUB_ENV
+#             echo ${{VARS.ENV}}
+#           elif [ "${{ matrix.environment }}" == "staging" ]; then
+#             # echo "ENV=staging" >> $GITHUB_ENV
+#             echo ${{VARS.ENV}}
+#           fi
+
+#       - name: Echo environment
+#         run: echo "Environment is $ENV"
