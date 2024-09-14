@@ -23,7 +23,8 @@ jobs:
             # echo "ENV=production" >> $GITHUB_ENV
             echo ${{VARS.ENV}}
           elif [ "${{ matrix.environment }}" == "staging" ]; then
-            echo "ENV=staging" >> $GITHUB_ENV
+            # echo "ENV=staging" >> $GITHUB_ENV
+            echo ${{VARS.ENV}}
           fi
 
       - name: Echo environment
