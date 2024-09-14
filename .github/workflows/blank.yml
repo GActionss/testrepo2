@@ -20,7 +20,8 @@ jobs:
       - name: Set environment variables
         run: |
           if [ "${{ matrix.environment }}" == "production" ]; then
-            echo "ENV=production" >> $GITHUB_ENV
+            # echo "ENV=production" >> $GITHUB_ENV
+            echo ${{VARS.ENV}}
           elif [ "${{ matrix.environment }}" == "staging" ]; then
             echo "ENV=staging" >> $GITHUB_ENV
           fi
